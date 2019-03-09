@@ -1,0 +1,19 @@
+{
+  "name": "admin-panel-server",
+  "version": "1.0.0",
+  "description": "senz-admin-panel-server",
+  "main": "app.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "debug": "^4.1.1",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.18",
+    "passport": "^0.4.0"
+  }
+}
