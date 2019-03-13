@@ -1,14 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
 import { withStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -18,14 +13,9 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import ListItemText from "@material-ui/core/ListItemText";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import AboutIcon from "@material-ui/icons/Info";
-import Projects from "../projects/Projects";
-import Login from "../login/Login";
-import Register from "../register/Register";
-import Devices from "../devices/Devices";
-import About from "../about/About";
-
+import LoginIcon from "@material-ui/icons/Person";
+import RegisterIcon from "@material-ui/icons/PersonAdd";
 const drawerWidth = 240;
-
 const styles = theme => ({
   root: {
     display: "flex"
@@ -43,7 +33,9 @@ const styles = theme => ({
     width: drawerWidth,
     backgroundColor: "#ffffff"
   },
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    height: "65px"
+  },
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.primary,
@@ -51,20 +43,10 @@ const styles = theme => ({
   }
 });
 
-function PermanentDrawerLeft(props) {
-  const { classes } = props;
-
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Senz admin-panel
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
+function DrawerList(props) {
+  const { isLoggedIn, classes } = props;
+  if (isLoggedIn) {
+    return (
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -76,14 +58,19 @@ function PermanentDrawerLeft(props) {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <ListItem button key="Create Project">
+          <ListItem button key="Create Project" component={Link} to="/projects">
             <ListItemIcon>
               <StackPlus />
             </ListItemIcon>
             <ListItemText primary="Create Project" />
           </ListItem>
 
-          <ListItem button key="Manage Projects">
+          <ListItem
+            button
+            key="Manage Projects"
+            component={Link}
+            to="/projects"
+          >
             <ListItemIcon>
               <ManageIcon />
             </ListItemIcon>
@@ -112,24 +99,55 @@ function PermanentDrawerLeft(props) {
           </ListItem>
         </List>
       </Drawer>
-      <main className={classes.content}>
+    );
+  } else {
+    return (
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper
+        }}
+        anchor="left"
+      >
         <div className={classes.toolbar} />
-        <Router>
-          <div className="App">
-            <Route exact path="/" component={About} />
-            <Route exact path="/projects" component={Projects} />
-            <Route exact path="/devices" component={Devices} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
-          </div>
-        </Router>
-      </main>
-    </div>
-  );
+        <Divider />
+        <List>
+          <ListItem button key="LogIn" component={Link} to="/login">
+            <ListItemIcon>
+              <LoginIcon />
+            </ListItemIcon>
+            <ListItemText primary="LogIn" />
+          </ListItem>
+
+          <ListItem button key="SignUp" component={Link} to="/register">
+            <ListItemIcon>
+              <RegisterIcon />
+            </ListItemIcon>
+            <ListItemText primary="SignUp" />
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem button key="Settings" component={Link} to="/settings">
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Settings" />
+          </ListItem>
+          <ListItem button key="About" component={Link} to="/about">
+            <ListItemIcon>
+              <AboutIcon />
+            </ListItemIcon>
+            <ListItemText primary="About" />
+          </ListItem>
+        </List>
+      </Drawer>
+    );
+  }
 }
-
-PermanentDrawerLeft.propTypes = {
-  classes: PropTypes.object.isRequired
+DrawerList.propTypes = {
+  classes: PropTypes.object.isRequired,
+  isLoggedIn: PropTypes.object.isRequired
 };
-
-export default withStyles(styles)(PermanentDrawerLeft);
+export default withStyles(styles)(DrawerList);
