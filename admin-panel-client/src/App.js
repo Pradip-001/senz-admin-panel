@@ -2,18 +2,40 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import { Provider } from "react-redux";
-import logo from "./logo.svg";
 import "./App.css";
-import Drawer from "./components/navbar/Drawer";
+import NavBarTop from "./components/navbar/NavBarTop";
 import theme from "./theme/theme";
+import store from "./store/store";
+import Projects from "./components/projects/Projects";
+import Login from "./components/login/Login";
+import Register from "./components/register/Register";
+import Devices from "./components/devices/Devices";
+import About from "./components/about/About";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import DrawerList from "./components/navbar/DrawerList";
+
 class App extends Component {
   render() {
     return (
-      <Router>
-        <MuiThemeProvider theme={theme}>
-          <Drawer />
-        </MuiThemeProvider>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <DrawerList isLoggedIn={store.getState().auth.authenticated} />
+            <NavBarTop />
+            <div className="App">
+              <Switch>
+                <Route exact path="/" component={About} />
+                <Route exact path="/projects" component={Projects} />
+                <Route exact path="/devices" component={Devices} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/about" component={About} />
+              </Switch>
+            </div>
+          </MuiThemeProvider>
+        </Router>
+      </Provider>
     );
   }
 }
