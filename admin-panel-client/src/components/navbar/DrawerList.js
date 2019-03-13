@@ -85,7 +85,7 @@ function DrawerList(props) {
             </ListItemIcon>
             <ListItemText primary="Settings" />
           </ListItem>
-          <ListItem button key="About">
+          <ListItem button key="About" component={Link} to="/about">
             <ListItemIcon>
               <AboutIcon />
             </ListItemIcon>
@@ -148,6 +148,6 @@ function DrawerList(props) {
 }
 DrawerList.propTypes = {
   classes: PropTypes.object.isRequired,
-  isLoggedIn: PropTypes.object.isRequired
+  isLoggedIn: PropTypes.bool.isRequired
 };
 export default withStyles(styles)(DrawerList);
