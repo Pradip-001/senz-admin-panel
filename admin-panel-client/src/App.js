@@ -21,7 +21,7 @@ class App extends Component {
         <Router>
           <MuiThemeProvider theme={theme}>
             <CssBaseline />
-            <DrawerList isLoggedIn={store.getState().auth.authenticated} />
+            <DrawerList />
             <NavBarTop />
             <div className="App">
               <Switch>

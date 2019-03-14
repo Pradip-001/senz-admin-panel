@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import compose from "recompose/compose";
+import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -17,28 +18,44 @@ const styles = theme => ({
     marginLeft: drawerWidth,
     backgroundColor: "#37474F",
     height: "65px"
+  },
+  username: {
+    marginLeft: "100px"
   }
 });
 
-function NavBarTop(props) {
-  const { classes } = props;
-
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Senz admin-panel
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+class NavBarTop extends Component {
+  render() {
+    const { classes, username } = this.props;
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <Typography variant="h6" color="inherit" noWrap>
+              Senz admin-panel----------------
+            </Typography>
+            <Typography variant="h6" color="inherit">
+              {username}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
 NavBarTop.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default compose(withStyles(styles))(NavBarTop);
+const mapStateToProps = state => ({
+  username: state.auth.user.name
+});
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(NavBarTop);
+
+// export default compose(withStyles(styles))(NavBarTop);
