@@ -1,5 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import compose from "recompose/compose";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
@@ -15,7 +17,10 @@ import LogoutIcon from "@material-ui/icons/ExitToApp";
 import AboutIcon from "@material-ui/icons/Info";
 import LoginIcon from "@material-ui/icons/Person";
 import RegisterIcon from "@material-ui/icons/PersonAdd";
+import { logoutUser } from "../../util/logoutUser";
+
 const drawerWidth = 240;
+
 const styles = theme => ({
   root: {
     display: "flex"
@@ -43,111 +48,135 @@ const styles = theme => ({
   }
 });
 
-function DrawerList(props) {
-  const { isLoggedIn, classes } = props;
-  if (isLoggedIn) {
-    return (
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-        anchor="left"
-      >
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          <ListItem button key="Create Project" component={Link} to="/projects">
-            <ListItemIcon>
-              <StackPlus />
-            </ListItemIcon>
-            <ListItemText primary="Create Project" />
-          </ListItem>
+class DrawerList extends Component {
+  logOut = e => {
+    e.preventDefault();
+    this.props.logoutUser();
+  };
 
-          <ListItem
-            button
-            key="Manage Projects"
-            component={Link}
-            to="/projects"
-          >
-            <ListItemIcon>
-              <ManageIcon />
-            </ListItemIcon>
-            <ListItemText primary="Manage Projects" />
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button key="Settings">
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
-          <ListItem button key="About" component={Link} to="/about">
-            <ListItemIcon>
-              <AboutIcon />
-            </ListItemIcon>
-            <ListItemText primary="About" />
-          </ListItem>
-          <ListItem button key="Logout">
-            <ListItemIcon>
-              <LogoutIcon />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItem>
-        </List>
-      </Drawer>
-    );
-  } else {
-    return (
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-        anchor="left"
-      >
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          <ListItem button key="LogIn" component={Link} to="/login">
-            <ListItemIcon>
-              <LoginIcon />
-            </ListItemIcon>
-            <ListItemText primary="LogIn" />
-          </ListItem>
+  render() {
+    const { classes, authenticated } = this.props;
+    if (authenticated) {
+      return (
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper
+          }}
+          anchor="left"
+        >
+          <div className={classes.toolbar} />
+          <Divider />
+          <List>
+            <ListItem
+              button
+              key="Create Project"
+              component={Link}
+              to="/projects"
+            >
+              <ListItemIcon>
+                <StackPlus />
+              </ListItemIcon>
+              <ListItemText primary="Create Project" />
+            </ListItem>
 
-          <ListItem button key="SignUp" component={Link} to="/register">
-            <ListItemIcon>
-              <RegisterIcon />
-            </ListItemIcon>
-            <ListItemText primary="SignUp" />
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button key="Settings" component={Link} to="/settings">
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
-          <ListItem button key="About" component={Link} to="/about">
-            <ListItemIcon>
-              <AboutIcon />
-            </ListItemIcon>
-            <ListItemText primary="About" />
-          </ListItem>
-        </List>
-      </Drawer>
-    );
+            <ListItem
+              button
+              key="Manage Projects"
+              component={Link}
+              to="/projects"
+            >
+              <ListItemIcon>
+                <ManageIcon />
+              </ListItemIcon>
+              <ListItemText primary="Manage Projects" />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button key="Settings">
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Settings" />
+            </ListItem>
+            <ListItem button key="About" component={Link} to="/about">
+              <ListItemIcon>
+                <AboutIcon />
+              </ListItemIcon>
+              <ListItemText primary="About" />
+            </ListItem>
+            <ListItem button key="Logout" onClick={this.logOut}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItem>
+          </List>
+        </Drawer>
+      );
+    } else {
+      return (
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper
+          }}
+          anchor="left"
+        >
+          <div className={classes.toolbar} />
+          <Divider />
+          <List>
+            <ListItem button key="LogIn" component={Link} to="/login">
+              <ListItemIcon>
+                <LoginIcon />
+              </ListItemIcon>
+              <ListItemText primary="LogIn" />
+            </ListItem>
+
+            <ListItem button key="SignUp" component={Link} to="/register">
+              <ListItemIcon>
+                <RegisterIcon />
+              </ListItemIcon>
+              <ListItemText primary="SignUp" />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button key="Settings" component={Link} to="/settings">
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Settings" />
+            </ListItem>
+            <ListItem button key="About" component={Link} to="/about">
+              <ListItemIcon>
+                <AboutIcon />
+              </ListItemIcon>
+              <ListItemText primary="About" />
+            </ListItem>
+          </List>
+        </Drawer>
+      );
+    }
   }
 }
 DrawerList.propTypes = {
   classes: PropTypes.object.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  authenticated: PropTypes.bool.isRequired,
+  logoutUser: PropTypes.func.isRequired
 };
-export default withStyles(styles)(DrawerList);
+
+const mapStateToProps = state => ({
+  authenticated: state.auth.authenticated
+});
+
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    { logoutUser }
+  )
+)(DrawerList);

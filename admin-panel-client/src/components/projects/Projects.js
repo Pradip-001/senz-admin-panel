@@ -1,10 +1,23 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import compose from "recompose/compose";
+import { projectActions } from "../../actions/projects/projectActions";
 
 class Projects extends Component {
   state = {};
   render() {
-    return <h1>Projects</h1>;
+    const { user } = this.props;
+    return <h1>{user.id}</h1>;
   }
 }
 
-export default Projects;
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
+export default compose(
+  connect(
+    mapStateToProps,
+    { projectActions }
+  )
+)(Projects);
