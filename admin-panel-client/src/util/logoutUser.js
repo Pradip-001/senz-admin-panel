@@ -1,5 +1,10 @@
 import useAuthToken from "./useAuthToken";
-import { SET_USER } from "../actions/types/types";
+import {
+  SET_USER,
+  PROJECT_RECEIVED,
+  FETCH_PROJECTS,
+  LOGOUT_PROJECTS
+} from "../actions/types/types";
 
 export const logoutUser = () => dispatch => {
   // Remove token from local storage
@@ -13,4 +18,9 @@ export const logoutUser = () => dispatch => {
     type: SET_USER,
     payload: {}
   });
+  dispatch({
+    type: LOGOUT_PROJECTS
+  });
+
+  window.location = "/login";
 };

@@ -7,3 +7,4 @@ export const DEVICES_RECEIVED = "DEVICES_RECEIVED";
 export const CREATE_PROJECT = "CREATE_PROJECT";
 export const CREATE_DEVICE = "CREATE_DEVICE";
 export const ERRORS = "ERRORS";
+export const LOGOUT_PROJECTS = "LOGOUT_PROJECTS";
