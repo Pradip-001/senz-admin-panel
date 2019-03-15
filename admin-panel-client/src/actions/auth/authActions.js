@@ -2,6 +2,7 @@ import axios from "axios";
 import { ERRORS, SET_USER } from "../types/types";
 import jwt_decode from "jwt-decode";
 import useAuthToken from "../../util/useAuthToken";
+import { fetchProjects } from "../../actions/projects/projectActions";
 
 // Register User
 export const registerAction = (userData, history) => dispatch => {
@@ -36,6 +37,8 @@ export const loginAction = userData => dispatch => {
         type: SET_USER,
         payload: decoded
       });
+
+      //console.log(decoded.id + " decoded.id");
     })
     .catch(err =>
       dispatch({
