@@ -1,35 +1,89 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
-//import { fetchProjects } from "../../actions/projects/projectActions";
-import InfiniteScroll from "react-infinite-scroller";
+import ProjectsList from "./ProjectsList";
+import Input from "@material-ui/core/Input";
+import Button from "@material-ui/core/Button";
 
+import {
+  fetchProjects,
+  unmountProjects
+} from "../../actions/projects/projectActions";
 class Projects extends Component {
   state = {};
-  // componentDidMount() {
-  //   // If logged in and user navigates to Login page, should redirect them to dashboard
-  //   if (this.props.user.authenticated) {
-  //     this.props.history.push("/login");
-  //   }
-  // }
+  loadProjects() {
+    if (this.props.loading) {
+      console.log(this.props.user);
+      this.props.fetchProjects(this.props.user.user.id);
+    }
+  }
+
+  addProject() {
+    console.log(this.state.input + " project is creeated");
+  }
+  handleChange(e) {
+    e.preventDefault();
+    this.setState({ input: e.target.value });
+  }
+  componentWillUnmount() {
+    this.props.unmountProjects();
+  }
 
   render() {
-    const { user, projects } = this.props;
-    // // const projects = ["ITO", "CLOUD"];
-    // // return <h1>{user.id}</h1>;
-
-    var currentprojects = [];
-    for (var i = 0; i < projects.length; i++) {
-      currentprojects.push(
-        <div key={i}>
-          <h1 key={i}>{projects[i].title}</h1>
+    const { loading, projects } = this.props;
+    this.loadProjects();
+    if (loading) {
+      return (
+        <div>
+          <h1>Projects loading...</h1>
+          <input
+            ref={node => {
+              this.input = node;
+            }}
+          />
+          <Button
+            type="button"
+            onClick={() => this.addProject(this.input.value)}
+          >
+            Add Project
+          </Button>
+        </div>
+      );
+    } else if (loading == false && projects.length == 0) {
+      return (
+        <div>
+          <h1>No projects found</h1>
+          <input
+            ref={node => {
+              this.input = node;
+            }}
+          />
+          <Button
+            type="button"
+            onClick={() => this.addProject(this.input.value)}
+          >
+            Add Project
+          </Button>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <ProjectsList />
+          <input
+            ref={node => {
+              this.input = node;
+            }}
+          />
+          <Button
+            type="button"
+            onClick={() => this.addProject(this.input.value)}
+          >
+            Add Project
+          </Button>
         </div>
       );
     }
-    return currentprojects;
-    // return ["IOT", "cloud"].map((item, index) => (
-    //   <span key={index}>{item.title}</span>
-    // ));
   }
 }
 
@@ -42,6 +96,8 @@ const mapStateToProps = state => ({
 export default compose(
   connect(
     mapStateToProps,
-    {}
+    { fetchProjects, unmountProjects }
   )
 )(Projects);
+
+// export default ProjectList;
