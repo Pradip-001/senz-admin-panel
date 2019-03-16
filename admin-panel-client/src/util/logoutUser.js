@@ -1,9 +1,8 @@
 import useAuthToken from "./useAuthToken";
 import {
   SET_USER,
-  PROJECT_RECEIVED,
-  FETCH_PROJECTS,
-  LOGOUT_PROJECTS
+  UNMOUNT_PROJECTS,
+  UNMOUNT_DEVICES
 } from "../actions/types/types";
 
 export const logoutUser = () => dispatch => {
@@ -19,7 +18,10 @@ export const logoutUser = () => dispatch => {
     payload: {}
   });
   dispatch({
-    type: LOGOUT_PROJECTS
+    type: UNMOUNT_PROJECTS
+  });
+  dispatch({
+    type: UNMOUNT_DEVICES
   });
 
   window.location = "/login";

@@ -1,19 +1,13 @@
-import { PROJECT_RECEIVED, FETCH_PROJECTS, ERRORS } from "../types/types";
+import {
+  PROJECT_RECEIVED,
+  FETCH_PROJECTS,
+  ERRORS,
+  UNMOUNT_PROJECTS
+} from "../types/types";
 import axios from "axios";
 
 export const fetchProjects = userid => dispatch => {
   dispatch({ type: FETCH_PROJECTS });
-  //   fetch("/api/projects/getprojects")
-  //     .then(res => res.json())
-  //     .then(posts => {
-  //       dispatch({
-  //         type: PROJECT_RECEIVED,
-  //         payload: posts.docs
-  //       });
-  //     })
-  //     .catch(err => {
-  //       console.error("Server response invalid", err);
-  //     });
 
   console.log(userid + "   ---");
 
@@ -21,8 +15,6 @@ export const fetchProjects = userid => dispatch => {
     .post("/api/projects/getprojects", { userid: userid })
     .then(res => {
       const projects = res.data;
-
-      console.log("this are projects" + projects[0].title);
       dispatch({
         type: PROJECT_RECEIVED,
         payload: projects
@@ -37,4 +29,8 @@ export const fetchProjects = userid => dispatch => {
     );
 
   console.log("weird");
+};
+
+export const unmountProjects = () => dispatch => {
+  dispatch({ type: UNMOUNT_PROJECTS });
 };

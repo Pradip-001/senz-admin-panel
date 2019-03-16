@@ -7,7 +7,7 @@ import NavBarTop from "./components/navbar/NavBarTop";
 import theme from "./theme/theme";
 import store from "./store/store";
 import Projects from "./components/projects/Projects";
-import ProjectList from "./components/projects/ProjectList";
+// import ProjectList from "./components/projects/ProjectList";
 
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
@@ -29,8 +29,12 @@ class App extends Component {
             <div className="App">
               <Switch>
                 <Route exact path="/" component={About} />
-                <Route exact path="/projects" component={ProjectList} />
-                <Route exact path="/devices" component={Devices} />
+                <Route exact path="/projects" component={Projects} />
+                <Route
+                  exact
+                  path="/devices/:projectid/:userid"
+                  component={Devices}
+                />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/about" component={About} />
