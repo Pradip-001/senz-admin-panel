@@ -7,82 +7,97 @@ import Button from "@material-ui/core/Button";
 
 import {
   fetchProjects,
-  unmountProjects
+  unmountProjects,
+  createProject
 } from "../../actions/projects/projectActions";
 class Projects extends Component {
-  state = {};
+  //state = {};
+
+  constructor(props) {
+    super(props);
+    this.state = { value: "" };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
   loadProjects() {
     if (this.props.loading) {
       console.log(this.props.user);
       this.props.fetchProjects(this.props.user.user.id);
     }
   }
-
-  addProject() {
-    console.log(this.state.input + " project is creeated");
-  }
-  handleChange(e) {
-    e.preventDefault();
-    this.setState({ input: e.target.value });
-  }
   componentWillUnmount() {
     this.props.unmountProjects();
   }
+  handleChange(event) {
+    event.preventDefault();
+    this.setState({ value: event.target.value });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.createProject(this.state.value, this.props.user.user.id);
+  }
 
   render() {
-    const { loading, projects } = this.props;
+    const { loading, projects, user } = this.props;
     this.loadProjects();
-    if (loading) {
-      return (
-        <div>
-          <h1>Projects loading...</h1>
-          <input
-            ref={node => {
-              this.input = node;
-            }}
-          />
-          <Button
-            type="button"
-            onClick={() => this.addProject(this.input.value)}
-          >
-            Add Project
-          </Button>
-        </div>
-      );
-    } else if (loading == false && projects.length == 0) {
-      return (
-        <div>
-          <h1>No projects found</h1>
-          <input
-            ref={node => {
-              this.input = node;
-            }}
-          />
-          <Button
-            type="button"
-            onClick={() => this.addProject(this.input.value)}
-          >
-            Add Project
-          </Button>
-        </div>
-      );
+    if (!user.authenticated) {
+      return <h1>Please login to view your projects...</h1>;
     } else {
-      return (
-        <div>
-          <ProjectsList />
-          <input
-            ref={node => {
-              this.input = node;
-            }}
-          />
-          <Button
-            type="button"
-            onClick={() => this.addProject(this.input.value)}
-          >
-            Add Project
-          </Button>
-        </div>
-      );
+      if (loading) {
+        return (
+          <div>
+            <h1>Projects loading...</h1>
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                New Project:
+                <input
+                  type="text"
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                />
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+        );
+      } else if (loading == false && projects.length == 0) {
+        return (
+          <div>
+            <h1>No projects found</h1>
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                New Project:
+                <input
+                  type="text"
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                />
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <ProjectsList />
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                New Project:
+                <input
+                  type="text"
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                />
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+        );
+      }
     }
   }
 }
@@ -96,7 +111,7 @@ const mapStateToProps = state => ({
 export default compose(
   connect(
     mapStateToProps,
-    { fetchProjects, unmountProjects }
+    { fetchProjects, unmountProjects, createProject }
   )
 )(Projects);
 
