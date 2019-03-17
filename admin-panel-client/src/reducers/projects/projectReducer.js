@@ -1,7 +1,8 @@
 import {
   PROJECT_RECEIVED,
   FETCH_PROJECTS,
-  UNMOUNT_PROJECTS
+  UNMOUNT_PROJECTS,
+  CREATE_PROJECT
 } from "../../actions/types/types";
 const isEmpty = require("is-empty");
 
@@ -22,6 +23,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case CREATE_PROJECT:
+      return {
+        ...state,
+        projects: [...state.projects, action.payload],
+        loading: false
       };
     case UNMOUNT_PROJECTS:
       return {
