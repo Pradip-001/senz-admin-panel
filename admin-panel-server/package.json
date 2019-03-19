@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -g 'Authentication tests'; mocha -g 'Project tests'; mocha -g 'Device tests'"
   },
   "author": "",
   "license": "ISC",
@@ -21,5 +21,10 @@
     "mongoose": "^5.4.18",
     "passport": "^0.4.0",
     "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "mocha": "^6.0.2"
   }
 }
