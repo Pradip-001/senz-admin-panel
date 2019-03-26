@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
 import DeviceList from "./DeviceList";
+import Button from "@material-ui/core/Button";
+
 import {
   fetchDevices,
   unmountDevices,
@@ -56,9 +58,9 @@ class Devices extends Component {
     } else {
       if (loading) {
         return (
-          <div>
+          <div class="card-container">
             <h1>Devices loading...</h1>{" "}
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} class="custom-card">
               <label>
                 New Device:
                 <input
@@ -67,15 +69,15 @@ class Devices extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <input type="submit" value="Submit" />
+              <Button type="submit">Submit</Button>
             </form>
           </div>
         );
       } else if (loading == false && devices.length == 0) {
         return (
-          <div>
+          <div class="card-container">
             <h1>No Devices found</h1>{" "}
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} class="custom-card">
               <label>
                 New Device:
                 <input
@@ -84,15 +86,15 @@ class Devices extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <input type="submit" value="Submit" />
+              <Button type="submit">Submit</Button>
             </form>
           </div>
         );
       } else {
         return (
-          <div>
-            <DeviceList />{" "}
-            <form onSubmit={this.handleSubmit}>
+          <div class="card-container">
+            <DeviceList />
+            <form onSubmit={this.handleSubmit} class="custom-card">
               <label>
                 New Device:
                 <input
@@ -101,7 +103,7 @@ class Devices extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <input type="submit" value="Submit" />
+              <Button type="submit">Submit</Button>
             </form>
           </div>
         );

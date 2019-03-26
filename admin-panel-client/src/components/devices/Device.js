@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import compose from "recompose/compose";
 
 function Device({ data }) {
-  return <h1>{data.devicename}</h1>;
+  return (
+    <div class="custom-card">
+      <div classes="cardtitle">{data.devicename}</div>
+    </div>
+  );
 }
 
 export default Device;
