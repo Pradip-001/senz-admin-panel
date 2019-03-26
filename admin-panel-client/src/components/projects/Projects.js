@@ -48,9 +48,9 @@ class Projects extends Component {
     } else {
       if (loading) {
         return (
-          <div>
+          <div class="card-container">
             <h1>Projects loading...</h1>
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} class="custom-card">
               <label>
                 New Project:
                 <input
@@ -59,15 +59,15 @@ class Projects extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <input type="submit" value="Submit" />
+              <Button type="submit">Submit</Button>
             </form>
           </div>
         );
       } else if (loading == false && projects.length == 0) {
         return (
-          <div>
+          <div class="card-container">
             <h1>No projects found</h1>
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} class="custom-card">
               <label>
                 New Project:
                 <input
@@ -76,15 +76,15 @@ class Projects extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <input type="submit" value="Submit" />
+              <Button type="submit">Submit</Button>
             </form>
           </div>
         );
       } else {
         return (
-          <div>
+          <div class="card-container">
             <ProjectsList />
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} class="custom-card">
               <label>
                 New Project:
                 <input
@@ -93,7 +93,7 @@ class Projects extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <input type="submit" value="Submit" />
+              <Button type="submit">Submit</Button>
             </form>
           </div>
         );

@@ -21,27 +21,58 @@ const styles = theme => ({
   },
   username: {
     marginLeft: "100px"
+  },
+  navbaritem: {
+    margin: "20px"
   }
 });
 
 class NavBarTop extends Component {
   render() {
-    const { classes, username } = this.props;
-    return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              Senz admin-panel----------------
-            </Typography>
-            <Typography variant="h6" color="inherit">
-              {username}
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
+    const { classes, username, authenticated } = this.props;
+
+    if (authenticated) {
+      return (
+        <div className={classes.root}>
+          <CssBaseline />
+          <AppBar position="fixed" className={classes.appBar}>
+            <Toolbar class="mynavbar">
+              <Typography
+                variant="h6"
+                color="inherit"
+                className={classes.navbaritem}
+              >
+                Senz admin-panel
+              </Typography>
+              <Typography
+                variant="h6"
+                color="inherit"
+                className={classes.navbaritem}
+              >
+                Welcome, {username} !
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </div>
+      );
+    } else {
+      return (
+        <div className={classes.root}>
+          <CssBaseline />
+          <AppBar position="fixed" className={classes.appBar}>
+            <Toolbar class="mynavbar">
+              <Typography
+                variant="h6"
+                color="inherit"
+                className={classes.navbaritem}
+              >
+                Senz admin-panel
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </div>
+      );
+    }
   }
 }
 
@@ -50,6 +81,7 @@ NavBarTop.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  authenticated: state.auth.authenticated,
   username: state.auth.user.name
 });
 
