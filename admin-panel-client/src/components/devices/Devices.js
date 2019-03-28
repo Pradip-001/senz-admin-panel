@@ -51,7 +51,8 @@ class Devices extends Component {
     this.state.value = "";
   }
   render() {
-    const { loading, devices, user } = this.props;
+    const { loading, devices, user, errors } = this.props;
+
     this.loadDevices();
     if (!user.authenticated) {
       return <h1>Please login to view your devices...</h1>;
@@ -69,6 +70,7 @@ class Devices extends Component {
                   onChange={this.handleChange}
                 />
               </label>
+              <label class="error-class">{this.props.errors.error}</label>
               <Button type="submit">Submit</Button>
             </form>
           </div>
@@ -86,6 +88,7 @@ class Devices extends Component {
                   onChange={this.handleChange}
                 />
               </label>
+              <label class="error-class">{this.props.errors.error}</label>
               <Button type="submit">Submit</Button>
             </form>
           </div>
@@ -103,6 +106,7 @@ class Devices extends Component {
                   onChange={this.handleChange}
                 />
               </label>
+              <label class="error-class">{this.props.errors.error}</label>
               <Button type="submit">Submit</Button>
             </form>
           </div>
@@ -115,7 +119,8 @@ class Devices extends Component {
 const mapStateToProps = state => ({
   user: state.auth,
   devices: state.devices.devices,
-  loading: state.devices.loading
+  loading: state.devices.loading,
+  errors: state.errors
 });
 export default compose(
   connect(
