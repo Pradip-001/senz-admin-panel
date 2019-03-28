@@ -4,7 +4,11 @@ import compose from "recompose/compose";
 import ProjectsList from "./ProjectsList";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
-
+import CssBaseline from "@material-ui/core/CssBaseline";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 import {
   fetchProjects,
   unmountProjects,
@@ -38,10 +42,12 @@ class Projects extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.createProject(this.state.value, this.props.user.user.id);
+    this.state.value = "";
   }
 
   render() {
-    const { loading, projects, user } = this.props;
+    const { loading, projects, user, errors } = this.props;
+
     this.loadProjects();
     if (!user.authenticated) {
       return <h1>Please login to view your projects...</h1>;
@@ -59,6 +65,7 @@ class Projects extends Component {
                   onChange={this.handleChange}
                 />
               </label>
+              <label class="error-class">{this.props.errors.error}</label>
               <Button type="submit">Submit</Button>
             </form>
           </div>
@@ -76,6 +83,7 @@ class Projects extends Component {
                   onChange={this.handleChange}
                 />
               </label>
+              <label class="error-class">{this.props.errors.error}</label>
               <Button type="submit">Submit</Button>
             </form>
           </div>
@@ -93,6 +101,7 @@ class Projects extends Component {
                   onChange={this.handleChange}
                 />
               </label>
+              <label class="error-class">{this.props.errors.error}</label>
               <Button type="submit">Submit</Button>
             </form>
           </div>
@@ -105,7 +114,8 @@ class Projects extends Component {
 const mapStateToProps = state => ({
   user: state.auth,
   projects: state.projects.projects,
-  loading: state.projects.loading
+  loading: state.projects.loading,
+  errors: state.errors
 });
 
 export default compose(

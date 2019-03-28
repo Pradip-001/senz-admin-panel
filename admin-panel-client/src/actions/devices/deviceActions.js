@@ -22,6 +22,11 @@ export const fetchDevices = (projectid, userid) => dispatch => {
         type: DEVICES_RECEIVED,
         payload: devices
       });
+      dispatch({
+        type: ERRORS,
+        payload: ""
+      });
+
       //window.location = "/devices";
     })
     .catch(
@@ -44,13 +49,16 @@ export const createDevice = (devicename, projectid, userid) => dispatch => {
         type: CREATE_DEVICE,
         payload: device
       });
+      dispatch({
+        type: ERRORS,
+        payload: ""
+      });
     })
-    .catch(
-      err => console.log("Some error occured " + err)
-      //   dispatch({
-      //     type: ERRORS,
-      //     payload: err.response.data
-      //   })
+    .catch(err =>
+      dispatch({
+        type: ERRORS,
+        payload: err.response.data.device
+      })
     );
 };
 

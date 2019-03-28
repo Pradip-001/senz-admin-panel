@@ -107,17 +107,10 @@ class Login extends Component {
               <Input
                 onChange={this.onChange}
                 value={this.state.email}
-                error={errors.email}
                 id="email"
                 type="email"
-                className={classnames("", {
-                  invalid: errors.email || errors.emailnotfound
-                })}
               />
-              <span className="red-text">
-                {errors.email}
-                {errors.emailnotfound}
-              </span>
+              <span className="red-text">{errors.error}</span>
             </FormControl>
 
             <FormControl margin="normal" required fullWidth>
@@ -125,17 +118,10 @@ class Login extends Component {
               <Input
                 onChange={this.onChange}
                 value={this.state.password}
-                error={errors.password}
                 id="password"
                 type="password"
-                className={classnames("", {
-                  invalid: errors.password || errors.passwordincorrect
-                })}
               />
-              <span className="red-text">
-                {errors.password}
-                {errors.passwordincorrect}
-              </span>
+              <span className="red-text">{errors.error}</span>
             </FormControl>
 
             <Button

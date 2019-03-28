@@ -20,6 +20,10 @@ export const fetchProjects = userid => dispatch => {
         type: PROJECT_RECEIVED,
         payload: projects
       });
+      dispatch({
+        type: ERRORS,
+        payload: ""
+      });
     })
     .catch(
       err => console.log("Some error occured " + err)
@@ -41,13 +45,16 @@ export const createProject = (title, userid) => dispatch => {
         type: CREATE_PROJECT,
         payload: projects
       });
+      dispatch({
+        type: ERRORS,
+        payload: ""
+      });
     })
-    .catch(
-      err => console.log("Some error occured " + err)
-      //   dispatch({
-      //     type: ERRORS,
-      //     payload: err.response.data
-      //   })
+    .catch(err =>
+      dispatch({
+        type: ERRORS,
+        payload: err.response.data.project
+      })
     );
 };
 

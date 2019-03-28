@@ -85,7 +85,32 @@ class Register extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { name, email, password, password2 } = this.state;
-    if (password === password2) {
+
+    if (name === "") {
+      const nameError = "Name is required";
+      const errors = {
+        name: nameError
+      };
+      this.setState({ errors });
+    } else if (email === "") {
+      const emailError = "email is required";
+      const errors = {
+        email: emailError
+      };
+      this.setState({ errors });
+    } else if (password === "") {
+      const passError = "password is required";
+      const errors = {
+        password: passError
+      };
+      this.setState({ errors });
+    } else if (password !== password2) {
+      const passwordError = "Password don't match";
+      const errors = {
+        password2: passwordError
+      };
+      this.setState({ errors });
+    } else {
       const newUser = {
         name,
         email,
@@ -93,12 +118,6 @@ class Register extends Component {
         password2
       };
       this.props.registerAction(newUser, this.props.history);
-    } else {
-      const passwordError = "Password don't match";
-      const errors = {
-        password2: passwordError
-      };
-      this.setState({ errors });
     }
   };
 
@@ -143,7 +162,7 @@ class Register extends Component {
                   invalid: errors.email
                 })}
               />
-              <span className="red-text">{errors.name}</span>
+              <span className="red-text">{errors.email}</span>
             </FormControl>
 
             <FormControl margin="normal" required fullWidth>
@@ -174,6 +193,7 @@ class Register extends Component {
                 })}
               />
               <span className="red-text">{errors.password2}</span>
+              <span className="red-text">{errors.error}</span>
             </FormControl>
 
             <Button

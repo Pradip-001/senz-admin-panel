@@ -12,7 +12,7 @@ export const registerAction = (userData, history) => dispatch => {
     .catch(err =>
       dispatch({
         type: ERRORS,
-        payload: err.response.data
+        payload: err.response.data.email
       })
     );
 };
@@ -38,12 +38,34 @@ export const loginAction = userData => dispatch => {
         payload: decoded
       });
 
-      //console.log(decoded.id + " decoded.id");
-    })
-    .catch(err =>
       dispatch({
         type: ERRORS,
-        payload: err.response.data
-      })
-    );
+        payload: ""
+      });
+
+      //console.log(decoded.id + " decoded.id");
+    })
+    .catch(err => {
+      if (err.response.data.emailnotfound) {
+        dispatch({
+          type: ERRORS,
+          payload: err.response.data.emailnotfound
+        });
+      } else if (err.response.data.email) {
+        dispatch({
+          type: ERRORS,
+          payload: err.response.data.email
+        });
+      } else if (err.response.data.password) {
+        dispatch({
+          type: ERRORS,
+          payload: err.response.data.password
+        });
+      } else if (err.response.data.passwordincorrect) {
+        dispatch({
+          type: ERRORS,
+          payload: err.response.data.passwordincorrect
+        });
+      }
+    });
 };
